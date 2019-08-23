@@ -23,11 +23,6 @@ consumes:
   - application/json
 schemes: 
   - https
-securityDefinitions:
- BasicAuth:
-  type: basic
-security: 
-  - BasicAuth: []
 paths:
   /filmes: #POST #GET
     post:
@@ -42,8 +37,6 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/Filme'
-        - $ref: '#/parameters/Page'
-        - $ref: "#/parameters/Size"
       responses:
         201:
           description: "Ok - Filme cadastrado com sucesso"
@@ -51,14 +44,6 @@ paths:
             $ref: '#/definitions/Filme'
         400:
           description: "Bad Request - Parâmetros informados pelo cliente são inválidos"
-          schema:
-            $ref: "#/definitions/ResponseError"
-        401:
-          description: "Unauthorized - Não autorizado, efetue o login"
-          schema:
-            $ref: "#/definitions/ResponseError"
-        403:
-          description: "Forbidden - Não possui permissão"
           schema:
             $ref: "#/definitions/ResponseError"
         404:
@@ -72,9 +57,9 @@ paths:
   
     get:
       tags:
-        - "Filmes"
-      summary: "Retorna lista de Filmes cadastrados"
-      description: "Retorna lista de filmes cadastrados com o número de páginas e itens por página"
+        - "Artistas"
+      summary: "Retorna lista de Artistas cadastrados"
+      description: "Retorna lista de artistas cadastrados com o número de páginas e itens por página"
       operationId: "getFilmes"
       parameters:
         - $ref: '#/parameters/Page'
@@ -90,16 +75,8 @@ paths:
           description: "Bad Request - Parâmetros informádos são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
-        401:
-          description: "Unauthorized - Não autorizado, efetue o login"
-          schema:
-            $ref: "#/definitions/ResponseError"
-        403:
-          description: "Forbidden - Não possui permissão"
-          schema:
-            $ref: "#/definitions/ResponseError"
         404:
-          description: "Not Found - Filme não encontrado"
+          description: "Not Found - Artista não encontrado"
           schema:
             $ref: '#/definitions/ResponseError'
         500:
@@ -107,7 +84,7 @@ paths:
           schema:
             $ref: '#/definitions/ResponseError'
     
-  /filmes/{id}: #GET #PUT #PATCH #DELETE
+  /filmes/{id}: #GET #PUT #PATCH
     get:
       tags:
         - "Filmes"
@@ -125,14 +102,6 @@ paths:
           description: "Bad Request - Parâmetros informádos são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
-        401:
-          description: "Unauthorized - Não autorizado, efetue o login"
-          schema:
-            $ref: "#/definitions/ResponseError"
-        403:
-          description: "Forbidden - Não possui permissão"
-          schema:
-            $ref: "#/definitions/ResponseError"
         404:
           description: "Not Found - Filme não encontrado"
           schema:
@@ -163,14 +132,6 @@ paths:
           description: "Bad Request - Parâmetros informádos são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
-        401:
-          description: "Unauthorized - Não autorizado, efetue o login"
-          schema:
-            $ref: "#/definitions/ResponseError"
-        403:
-          description: "Forbidden - Não possui permissão"
-          schema:
-            $ref: "#/definitions/ResponseError"
         404:
           description: "Not Found - Filme não encontrado"
           schema:
@@ -203,14 +164,6 @@ paths:
           description: "Bad Request - Parâmetros informádos são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
-        401:
-          description: "Unauthorized - Não autorizado, efetue o login"
-          schema:
-            $ref: "#/definitions/ResponseError"
-        403:
-          description: "Forbidden - Não possui permissão"
-          schema:
-            $ref: "#/definitions/ResponseError"
         404:
           description: "Not Found - Filme não encontrado"
           schema:
@@ -219,39 +172,47 @@ paths:
           description: "Internal Server Error - Erro não mapeado"
           schema:
             $ref: '#/definitions/ResponseError'
-    
-    delete:
+  
+  /filmes/artistas: #POST #GET
+    post:
       tags:
-        - "Filmes"
-      summary: "Deleta um Filme"
-      description: "Deleta um Filme cadastrado de acordo com o ID fornecido"
-      operationId: "deleteFilme"
+        - "Artistas"
+      summary: "Cadastra um Artista"
+      description: "Cadastra um novo Artista"
+      operationId: "addAtor"
       parameters:
-        - $ref: '#/parameters/Id'
+        - in: body
+          name: "request"
+          required: true
+          schema:
+            $ref: '#/definitions/Artista'
+      responses:
+        201:
+          description: "Ok - Artista cadastrado com sucesso"
+          schema:
+            $ref: '#/definitions/Filme'
+        400:
+          description: "Bad Request - Parâmetros informados pelo cliente são inválidos"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        404:
+          description: "Not Found - Artista não encontrado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"    
+  
+    get:
+      summary: 
+      description: 
       responses:
         200:
-          description: "Ok - Filme deletado com sucesso"
-        400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
-          schema:
-            $ref: '#/definitions/ResponseError'
-        401:
-          description: "Unauthorized - Não autorizado, efetue o login"
-          schema:
-            $ref: "#/definitions/ResponseError"
-        403:
-          description: "Forbidden - Não possui permissão"
-          schema:
-            $ref: "#/definitions/ResponseError"
-        404:
-          description: "Not Found - Filme não encontrado"
-          schema:
-            $ref: '#/definitions/ResponseError'
-        500:
-          description: "Internal Server Error - Erro não mapeado"
-          schema:
-            $ref: '#/definitions/ResponseError'
+          description: OK
     
+  /filmes/artistas/{ID}: #GET #PUT #PATCH
+  
   /health:
     get:
       tags:
@@ -280,22 +241,22 @@ definitions:
       nome:
         type: string
       genero:
-        type: string
-        enum: 
-          - "Terror"
-          - "Comédia"
-          - "Romance"
-          - "Ficção"
-          - "Aventura"
+        $ref: '#/definitions/Genero'
       ano:
         type: integer
         format: int32
         example: 1990
+      artistas:
+        $ref: '#/definitions/Artista'
       urlPoster:
         type: string
   Genero:
     type: object
     properties:
+      id:
+        type: integer
+        format: int32
+        example: 3
       nome:
         type: string
   Artista:
