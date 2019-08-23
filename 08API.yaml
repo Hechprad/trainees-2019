@@ -9,8 +9,8 @@ info:
     url: "sciensa-filmes-api/v1/contact"
     email: "hecherat@gmail.com"
   license:
-    name: "MIT"
-    url: "http://opensource.org/licenses/MIT"
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 host: "localhost:8080"
 basePath: "/sciensa-filmes-api/v1"
 tags:
@@ -41,7 +41,7 @@ paths:
             $ref: '#/definitions/Filme'
       responses:
         201:
-          description: "Ok - Filme cadastrado com sucesso"
+          description: "Created - Filme cadastrado com sucesso"
           schema:
             $ref: '#/definitions/Filme'
         400:
@@ -74,7 +74,7 @@ paths:
             items:
               $ref: '#/definitions/Filme'
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -101,7 +101,7 @@ paths:
           schema:
             $ref: '#/definitions/Filme'
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -131,7 +131,7 @@ paths:
           schema:
             $ref: '#/definitions/Filme'
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -146,8 +146,8 @@ paths:
     patch:
       tags:
         - "Filmes"
-      summary: "Atualiza o Poster de um Filme de acordo com o ID fornecido"
-      description:  "Modifica a URL do Poster"
+      summary: "Modifica a URL do Poster de um Filme"
+      description:  "Atualiza o Poster de um Filme de acordo com o ID fornecido"
       operationId: "updatePoster"
       parameters:
         - $ref: '#/parameters/Id'
@@ -163,7 +163,7 @@ paths:
           schema:
             $ref: '#/definitions/Filme'
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -187,7 +187,7 @@ paths:
         200:
           description: "Ok - Filme deletado com sucesso"
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -214,9 +214,9 @@ paths:
             $ref: '#/definitions/Artista'
       responses:
         201:
-          description: "Ok - Artista cadastrado com sucesso"
+          description: "Created - Artista cadastrado com sucesso"
           schema:
-            $ref: '#/definitions/Filme'
+            $ref: '#/definitions/Artista'
         400:
           description: "Bad Request - Parâmetros informados pelo cliente são inválidos"
           schema:
@@ -234,7 +234,7 @@ paths:
       tags:
         - "Artistas"
       summary: "Retorna lista de Artistas cadastrados"
-      description: "Retorna lista de Artistas cadastrados com o número de páginas e itens por página"
+      description: "Retorna uma lista de Artistas cadastrados com o número de páginas e itens por página"
       operationId: "getArtistas"
       parameters:
         - $ref: '#/parameters/Page'
@@ -247,7 +247,7 @@ paths:
             items:
               $ref: '#/definitions/Artista'
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -259,7 +259,7 @@ paths:
           schema:
             $ref: '#/definitions/ResponseError'
         
-  /filmes/artistas/{id}: #GET #PUT #PATCH
+  /filmes/artistas/{id}: #GET #PUT #PATCH #DELETE
     get:
       tags:
         - "Artistas"
@@ -274,7 +274,7 @@ paths:
           schema:
             $ref: '#/definitions/Artista'
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -300,11 +300,11 @@ paths:
             $ref: '#/definitions/Artista'
       responses:
         200:
-          description: "Ok - Filme atualizado com sucesso"
+          description: "Ok - Artista atualizado com sucesso"
           schema:
-            $ref: '#/definitions/Filme'
+            $ref: '#/definitions/Artista'
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -319,8 +319,8 @@ paths:
     patch:
       tags:
         - "Artistas"
-      summary: "Adiciona filmes ao artista de acordo com o ID fornecido"
-      description:  "Modifica a filmografia do Artista"
+      summary: "Modifica a Filmografia do Artista"
+      description:  "Adiciona filmes ao artista de acordo com o ID fornecido"
       operationId: "updateFilmografia"
       parameters:
         - $ref: '#/parameters/Id'
@@ -333,11 +333,11 @@ paths:
                 example: 10
       responses:
         200:
-          description: "Ok - Filmografia alterado com sucesso"
+          description: "Ok - Filmografia alterada com sucesso"
           schema:
             $ref: '#/definitions/Artista'
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -361,7 +361,7 @@ paths:
         200:
           description: "Ok - Artista deletado com sucesso"
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -388,7 +388,7 @@ paths:
             $ref: '#/definitions/Genero'
       responses:
         201:
-          description: "Ok - Gênero adicionado com sucesso"
+          description: "Created - Gênero adicionado com sucesso"
           schema:
             $ref: '#/definitions/Genero'
         400:
@@ -421,7 +421,7 @@ paths:
             items:
               $ref: '#/definitions/Genero'
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -448,7 +448,7 @@ paths:
           schema:
             $ref: '#/definitions/Genero'
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -478,7 +478,7 @@ paths:
           schema:
             $ref: '#/definitions/Genero'
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -493,9 +493,9 @@ paths:
     patch:
       tags:
         - "Gênero"
-      summary: "Adiciona filmes ao gênero de acordo com o ID fornecido"
-      description:  "Adiciona filmes ao Gênero"
-      operationId: "adicionaFilmesNoGenero"
+      summary: "Adiciona filmes ao Gênero"
+      description:  "Adiciona filmes ao Gênero de acordo com o ID fornecido"
+      operationId: "adicionaFilmesAoGenero"
       parameters:
         - $ref: '#/parameters/Id'
         - in: body
@@ -509,9 +509,9 @@ paths:
         200:
           description: "Ok - Filme adicionado ao Gênero com sucesso"
           schema:
-            $ref: '#/definitions/Artista'
+            $ref: '#/definitions/Genero'
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
@@ -566,11 +566,11 @@ paths:
             items:
               $ref: '#/definitions/Filme'
         400:
-          description: "Bad Request - Parâmetros informádos são inválidos"
+          description: "Bad Request - Parâmetros informados são inválidos"
           schema:
             $ref: '#/definitions/ResponseError'
         404:
-          description: "Not Found - Artista não encontrado"
+          description: "Not Found - Filmografia não encontrado"
           schema:
             $ref: '#/definitions/ResponseError'
         500:
