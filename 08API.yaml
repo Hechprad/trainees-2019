@@ -551,8 +551,8 @@ paths:
     get:
       tags:
         - "Filmografia"
-      summary: "Retorna lista de Filmes cadastrados"
-      description: "Retorna lista de filmes cadastrados com o número de páginas e itens por página"
+      summary: "Retorna a filmografia de um Artista específico"
+      description: "Retorna uma lista de filmes relacionada à um Artista específico com o número de páginas e itens por página"
       operationId: "getFilmografia"
       parameters:
         - $ref: '#/parameters/Id'
@@ -570,7 +570,7 @@ paths:
           schema:
             $ref: '#/definitions/ResponseError'
         404:
-          description: "Not Found - Filme não encontrado"
+          description: "Not Found - Artista não encontrado"
           schema:
             $ref: '#/definitions/ResponseError'
         500:
@@ -597,6 +597,10 @@ paths:
     
 definitions:
   Filme:
+    required: 
+      - "nome"
+      - "genero"
+      - "ano"
     type: object
     properties:
       id:
@@ -615,7 +619,10 @@ definitions:
         $ref: '#/definitions/Artista'
       urlPoster:
         type: string
+  
   Genero:
+    required:
+      - "nome"
     type: object
     properties:
       id:
@@ -629,7 +636,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Filme'
+  
   Artista:
+    required:
+      - "nome"
     type: object
     properties:
       id:
@@ -686,4 +696,3 @@ parameters:
     type: integer
     format: int32
     required: true
-
