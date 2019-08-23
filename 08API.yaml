@@ -17,6 +17,7 @@ tags:
   - name: "Filmes"
   - name: "Artistas"
   - name: "Gênero"
+  - name: "Filmografia"
   - name: "Healthcheck"
 produces: 
   - application/json
@@ -403,7 +404,179 @@ paths:
           schema:
             $ref: "#/definitions/ResponseError"    
     
-  /filmes/generos/{id}: #GET #PUT #DELETE
+    get:
+      tags:
+        - "Gênero"
+      summary: "Retorna lista de Gêneros cadastrados"
+      description: "Retorna lista de Gêneros cadastrados com o número de páginas e itens por página"
+      operationId: "getGeneros"
+      parameters:
+        - $ref: '#/parameters/Page'
+        - $ref: '#/parameters/Size'
+      responses:
+        200:
+          description: "Ok - Busca efetuada com sucesso"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Genero'
+        400:
+          description: "Bad Request - Parâmetros informádos são inválidos"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        404:
+          description: "Not Found - Gênero não encontrado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+    
+  /filmes/generos/{id}: #GET #PUT #PATCH #DELETE
+    get:
+      tags:
+        - "Gênero"
+      summary: "Retorna um Gênero específico"
+      description: "Retorna um Gênero de acordo com o ID fornecido"
+      operationId: "getGenero"
+      parameters:
+        - $ref: '#/parameters/Id'
+      responses:
+        200:
+          description: "Ok - Busca efetuada com sucesso"
+          schema:
+            $ref: '#/definitions/Genero'
+        400:
+          description: "Bad Request - Parâmetros informádos são inválidos"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        404:
+          description: "Not Found - Gênero não encontrado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+            
+    put:
+      tags:
+        - "Gênero"
+      summary: "Atualiza um Gênero"
+      description: "Atualiza os dados de um Gênero cadastrado de acordo com o ID fornecido"
+      operationId: "updateGenero"
+      parameters:
+        - $ref: '#/parameters/Id'
+        - in: body
+          name: "request"
+          schema:
+            $ref: '#/definitions/Genero'
+      responses:
+        200:
+          description: "Ok - Gênero atualizado com sucesso"
+          schema:
+            $ref: '#/definitions/Genero'
+        400:
+          description: "Bad Request - Parâmetros informádos são inválidos"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        404:
+          description: "Not Found - Gênero não encontrado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: '#/definitions/ResponseError'     
+
+    patch:
+      tags:
+        - "Gênero"
+      summary: "Adiciona filmes ao gênero de acordo com o ID fornecido"
+      description:  "Adiciona filmes ao Gênero"
+      operationId: "adicionaFilmesNoGenero"
+      parameters:
+        - $ref: '#/parameters/Id'
+        - in: body
+          name: "request"
+          schema:
+            properties:
+              idFilme:
+                type: integer
+                example: 10
+      responses:
+        200:
+          description: "Ok - Filme adicionado ao Gênero com sucesso"
+          schema:
+            $ref: '#/definitions/Artista'
+        400:
+          description: "Bad Request - Parâmetros informádos são inválidos"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        404:
+          description: "Not Found - Gênero não encontrado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: '#/definitions/ResponseError'    
+  
+    delete:
+      tags:
+        - "Gênero"
+      summary: "Deleta um Gênero"
+      description: "Deleta um Gênero cadastrado de acordo com o ID fornecido"
+      operationId: "deleteGenero"
+      parameters:
+        - $ref: '#/parameters/Id'
+      responses:
+        200:
+          description: "Ok - Gênero deletado com sucesso"
+        400:
+          description: "Bad Request - Parâmetros informádos são inválidos"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        404:
+          description: "Not Found - Gênero não encontrado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+  
+  /filmes/artistas/{id}/filmografia: #GET
+    get:
+      tags:
+        - "Filmografia"
+      summary: "Retorna lista de Filmes cadastrados"
+      description: "Retorna lista de filmes cadastrados com o número de páginas e itens por página"
+      operationId: "getFilmografia"
+      parameters:
+        - $ref: '#/parameters/Id'
+        - $ref: '#/parameters/Page'
+        - $ref: '#/parameters/Size'
+      responses:
+        200:
+          description: "Ok - Busca efetuada com sucesso"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Filme'
+        400:
+          description: "Bad Request - Parâmetros informádos são inválidos"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        404:
+          description: "Not Found - Filme não encontrado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: '#/definitions/ResponseError'    
   
   /health:
     get:
@@ -451,6 +624,11 @@ definitions:
         example: 3
       nome:
         type: string
+        example: Terror
+      filmes:
+        type: array
+        items:
+          $ref: '#/definitions/Filme'
   Artista:
     type: object
     properties:
