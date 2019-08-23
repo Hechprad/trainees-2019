@@ -16,6 +16,7 @@ basePath: "/sciensa-filmes-api/v1"
 tags:
   - name: "Filmes"
   - name: "Artistas"
+  - name: "Gênero"
   - name: "Healthcheck"
 produces: 
   - application/json
@@ -57,9 +58,9 @@ paths:
   
     get:
       tags:
-        - "Artistas"
-      summary: "Retorna lista de Artistas cadastrados"
-      description: "Retorna lista de artistas cadastrados com o número de páginas e itens por página"
+        - "Filmes"
+      summary: "Retorna lista de Filmes cadastrados"
+      description: "Retorna lista de filmes cadastrados com o número de páginas e itens por página"
       operationId: "getFilmes"
       parameters:
         - $ref: '#/parameters/Page'
@@ -76,7 +77,7 @@ paths:
           schema:
             $ref: '#/definitions/ResponseError'
         404:
-          description: "Not Found - Artista não encontrado"
+          description: "Not Found - Filme não encontrado"
           schema:
             $ref: '#/definitions/ResponseError'
         500:
@@ -84,7 +85,7 @@ paths:
           schema:
             $ref: '#/definitions/ResponseError'
     
-  /filmes/{id}: #GET #PUT #PATCH
+  /filmes/{id}: #GET #PUT #PATCH #DELETE
     get:
       tags:
         - "Filmes"
@@ -143,7 +144,7 @@ paths:
     
     patch:
       tags:
-          - "Filmes"
+        - "Filmes"
       summary: "Atualiza o Poster de um Filme de acordo com o ID fornecido"
       description:  "Modifica a URL do Poster"
       operationId: "updatePoster"
@@ -173,6 +174,30 @@ paths:
           schema:
             $ref: '#/definitions/ResponseError'
   
+    delete:
+      tags:
+        - "Filmes"
+      summary: "Deleta um Filme"
+      description: "Deleta um Filme cadastrado de acordo com o ID fornecido"
+      operationId: "deleteFilme"
+      parameters:
+        - $ref: '#/parameters/Id'
+      responses:
+        200:
+          description: "Ok - Filme deletado com sucesso"
+        400:
+          description: "Bad Request - Parâmetros informádos são inválidos"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        404:
+          description: "Not Found - Filme não encontrado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+            
   /filmes/artistas: #POST #GET
     post:
       tags:
@@ -205,13 +230,180 @@ paths:
             $ref: "#/definitions/ResponseError"    
   
     get:
-      summary: 
-      description: 
+      tags:
+        - "Artistas"
+      summary: "Retorna lista de Artistas cadastrados"
+      description: "Retorna lista de Artistas cadastrados com o número de páginas e itens por página"
+      operationId: "getArtistas"
+      parameters:
+        - $ref: '#/parameters/Page'
+        - $ref: '#/parameters/Size'
       responses:
         200:
-          description: OK
+          description: "Ok - Busca efetuada com sucesso"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Artista'
+        400:
+          description: "Bad Request - Parâmetros informádos são inválidos"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        404:
+          description: "Not Found - Artista não encontrado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        
+  /filmes/artistas/{id}: #GET #PUT #PATCH
+    get:
+      tags:
+        - "Artistas"
+      summary: "Retorna um Artista específico"
+      description: "Retorna um Artista de acordo com o ID fornecido"
+      operationId: "getArtista"
+      parameters:
+        - $ref: '#/parameters/Id'
+      responses:
+        200:
+          description: "Ok - Busca efetuada com sucesso"
+          schema:
+            $ref: '#/definitions/Artista'
+        400:
+          description: "Bad Request - Parâmetros informádos são inválidos"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        404:
+          description: "Not Found - Artista não encontrado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: '#/definitions/ResponseError'    
+           
+    put:
+      tags:
+        - "Artistas"
+      summary: "Atualiza um Artista"
+      description: "Atualiza os dados de um Artista cadastrado"
+      operationId: "updateArtista"
+      parameters:
+        - $ref: '#/parameters/Id'
+        - in: body
+          name: "request"
+          schema:
+            $ref: '#/definitions/Artista'
+      responses:
+        200:
+          description: "Ok - Filme atualizado com sucesso"
+          schema:
+            $ref: '#/definitions/Filme'
+        400:
+          description: "Bad Request - Parâmetros informádos são inválidos"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        404:
+          description: "Not Found - Artista não encontrado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: '#/definitions/ResponseError'     
+
+    patch:
+      tags:
+        - "Artistas"
+      summary: "Adiciona filmes ao artista de acordo com o ID fornecido"
+      description:  "Modifica a filmografia do Artista"
+      operationId: "updateFilmografia"
+      parameters:
+        - $ref: '#/parameters/Id'
+        - in: body
+          name: "request"
+          schema:
+            properties:
+              idFilme:
+                type: integer
+                example: 10
+      responses:
+        200:
+          description: "Ok - Filmografia alterado com sucesso"
+          schema:
+            $ref: '#/definitions/Artista'
+        400:
+          description: "Bad Request - Parâmetros informádos são inválidos"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        404:
+          description: "Not Found - Artista não encontrado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: '#/definitions/ResponseError'    
+  
+    delete:
+      tags:
+        - "Artistas"
+      summary: "Deleta um Artista"
+      description: "Deleta um Artista cadastrado de acordo com o ID fornecido"
+      operationId: "deleteArtista"
+      parameters:
+        - $ref: '#/parameters/Id'
+      responses:
+        200:
+          description: "Ok - Artista deletado com sucesso"
+        400:
+          description: "Bad Request - Parâmetros informádos são inválidos"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        404:
+          description: "Not Found - Artista não encontrado"
+          schema:
+            $ref: '#/definitions/ResponseError'
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: '#/definitions/ResponseError'
     
-  /filmes/artistas/{ID}: #GET #PUT #PATCH
+  /filmes/generos: #POST #GET
+    post:
+      tags:
+        - "Gênero"
+      summary: "Cadastra um Gênero"
+      description: "Cadastra um novo Gênero"
+      operationId: "addGenero"
+      parameters:
+        - in: body
+          name: "request"
+          required: true
+          schema:
+            $ref: '#/definitions/Genero'
+      responses:
+        201:
+          description: "Ok - Gênero adicionado com sucesso"
+          schema:
+            $ref: '#/definitions/Genero'
+        400:
+          description: "Bad Request - Parâmetros informados pelo cliente são inválidos"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        404:
+          description: "Not Found - Gênero não encontrado"
+          schema:
+            $ref: "#/definitions/ResponseError"
+        500:
+          description: "Internal Server Error - Erro não mapeado"
+          schema:
+            $ref: "#/definitions/ResponseError"    
+    
+  /filmes/generos/{id}: #GET #PUT #DELETE
   
   /health:
     get:
