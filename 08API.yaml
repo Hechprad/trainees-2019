@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   version: 1.0.0
   title: "Sciensa - Filmes API"
-  description: "API para catalogar, buscar e alterar filmes"
+  description: "API para catalogar, buscar e alterar filmes, artistas, gêneros cinematográficos e filmografia"
   termsOfService: "/sciensa-filmes-api/v1/terms"
   contact:
     name: "Jorge Hecherat"
